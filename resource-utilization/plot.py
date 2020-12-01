@@ -67,6 +67,7 @@ def run(csv):
             user = vals[1]
             labels = vals[3]
             labels = process_labels(labels)
+            agent_types = vals[2]
             start_time = vals[5]
             time_elapsed = float(vals[6]) / 3600.
 
@@ -142,13 +143,13 @@ def run(csv):
 
     months = sorted(time_by_month.keys())
     months_ys = [time_by_month[month] for month in months]
-    #plot_bar(months, months_ys, "Month", "GPU hours")
+    plot_bar(months, months_ys, "Month", "GPU hours")
 
     # Utilization by Month
 
     days = sorted(time_by_day.keys())
     days_ys = [time_by_day[day] for day in days]
-    #plot_bar(days, days_ys, "Day", "GPU hours")
+    plot_bar(days, days_ys, "Day", "GPU hours")
 
     # Utilization by Month by User
     ys_by_stack = {}
@@ -158,7 +159,7 @@ def run(csv):
         for k in keys:
             ys.append(d_time_by_month[k])
         ys_by_stack[user] = ys
-    #plot_stacked_bar(months, ys_by_stack, "Month", "GPU hours")
+    plot_stacked_bar(months, ys_by_stack, "Month", "GPU hours")
 
     # Utilization by Day by User
     '''
@@ -175,7 +176,7 @@ def run(csv):
         for k in keys:
             ys.append(d_time_by_day[k])
         ys_by_stack[user] = ys
-    #plot_stacked_bar(days, ys_by_stack, "Day", "GPU hours")
+    plot_stacked_bar(days, ys_by_stack, "Day", "GPU hours")
 
     # Utilization by Month by Label
     ys_by_stack = {}
