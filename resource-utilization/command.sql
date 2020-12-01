@@ -1,8 +1,10 @@
-Copy (SELECT experiment_id, username, slots, start_time, training_time_sec
+Copy (SELECT experiment_id, username, resources, labels, slots, start_time, training_time_sec
 FROM
 (SELECT id as experiment_id, 
         owner_id,
         (e.config->'description') as description, 
+        (e.config->'resources'->'agent_label') as resources,
+        (e.config::json->'labels') as labels,
         (e.config->'resources'->>'slots_per_trial')::int as slots,
         (select coalesce(extract(epoch from sum(steps.end_time - steps.start_time)), 0) 
           FROM steps, trials
@@ -22,5 +24,5 @@ JOIN
 (SELECT id as user_id, username
 FROM users) usr
 ON exp.owner_id = usr.user_id
-ORDER BY experiment_id ASC) To '/tmp/test.csv' With CSV DELIMITER ',' HEADER;
+ORDER BY experiment_id ASC) To '/tmp/test.csv' With CSV DELIMITER '|' HEADER;
 
