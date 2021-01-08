@@ -1,0 +1,17 @@
+# ----------------------------------------
+# All Web Site Data
+# Pages
+# 20200901-20210106
+# ----------------------------------------
+
+Page,Pageviews,Unique Pageviews,Avg. Time on Page,Entrances,Bounce Rate,% Exit,Page Value
+/latest/tutorials/pytorch-mnist-tutorial.html,"2,408","2,095",00:01:54,"1,066",71.72%,48.59%,$0.00
+,"2,408","2,095",00:01:54,"1,066",71.72%,48.59%,$0.00
+
+Month Index,Pageviews
+0000,484
+0001,664
+0002,555
+0003,622
+0004,83
+,"2,408"
