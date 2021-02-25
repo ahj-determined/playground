@@ -99,6 +99,10 @@ def get_slack_history(auth_token, channel, num_historical_weeks, outfile="./out.
 
             print("{}: {}".format(oldest, len(messages)))
 
+            # Analyze outliers
+            #if len(messages) > 40:
+            #    pp.pprint(messages)
+
             # Advance the time barriers
             latest = oldest
             oldest = latest - seconds_in_a_week
@@ -108,20 +112,22 @@ def get_slack_history(auth_token, channel, num_historical_weeks, outfile="./out.
 # Plot Num Support Threads by Time
 def plot(csvname):
     xs = []
+    xlabels = []
     thread_counts = []
 
     with open(csvname, "r") as f:
         for line in f:
             vals = line.rstrip().split(",")
             unix_timestamp = float(vals[0])
-            x = datetime.utcfromtimestamp(unix_timestamp).strftime("%m-%d")
-            xs.append(x)
+            x = datetime.utcfromtimestamp(unix_timestamp).strftime("%Y-%m-%d")
+            xs.append(unix_timestamp)
+            xlabels.append(x)
             thread_counts.append(int(vals[1]))
 
     plt.plot(xs, thread_counts, marker="o", markersize=8)
     plt.xlabel("Week", fontsize=20)
     plt.ylabel("Number of threads in channel", fontsize=20)
-    plt.xticks(rotation = 90)
+    plt.xticks(xs, xlabels, rotation = 90)
     plt.tick_params(axis='y', which='major', labelsize=10)
     plt.tick_params(axis='y', which='minor', labelsize=10)
     plt.tick_params(axis='x', which='major', labelsize=10)
@@ -138,6 +144,6 @@ if __name__ == "__main__":
     num_historical_weeks = 24
     channel = "CV3MTNZ6U"
 
-    get_slack_history(auth_token, channel, num_historical_weeks)
+    #get_slack_history(auth_token, channel, num_historical_weeks)
     plot("./out.txt")
 
