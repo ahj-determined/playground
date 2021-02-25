@@ -12,17 +12,20 @@ def get_xs_ys(fpath, granularity):
     ys = []
     xs_labels = []
     if "website" in fpath:
+        x_index = 0
         for line in open(fpath):
             if start:
                 try:
                     values = line.rstrip().replace("\"", "").split(",")
-                    x_index = int(values[0])
+                    xs_labels.append(values[0])
                     view = int(values[1])
                     xs.append(x_index)
                     ys.append(view)
+                    x_index += 1
                 except:
                     pass
             if granularity in line:
+                print("here!!!!")
                 start = True
     if "analytics" in fpath:
         x_index = 0
@@ -42,10 +45,11 @@ def get_xs_ys(fpath, granularity):
 def plot_funnel(filepaths, labels, granularity):
     for fpath, label in zip(filepaths, labels):
         xs, ys, xs_labels = get_xs_ys(fpath, granularity)
+        print(ys)
         plt.plot(xs, ys, marker="o", label=label)
         plt.legend()
         plt.xlabel(granularity)
-        plt.xticks(xs, xs_labels)
+        #plt.xticks(xs, xs_labels)
         plt.ylabel("Views")
     plt.ylim(ymin=0)
     plt.show()
@@ -77,10 +81,18 @@ if  __name__ == "__main__":
 
     #fpath4 = "data/2021-01-07/website_pytorch-mnist_9-1-1-6_month.csv"
 
+    '''
     filepaths = [fpath1, fpath2, fpath3, fpath4, fpath5]
     labels = ["Product Page", "Website Home", "Install Home", "New Users to WebUI", "Masters Started"]
-
     plot_funnel(filepaths, labels, "Month")
+
     plot_conversion_rate(fpath3, fpath4, "Month", "Installation Followthrough (Install docs -> New WebUI users)")
     plot_conversion_rate(fpath2, fpath3, "Month", "Web home -> Install docs")
+    '''
+
+    fpath6 = "data/2021-01-07/website_new-webui_9-1-1-6_day.csv"
+    fpath7  = "data/2021-01-07/analytics_master-started_9-1-1-6_day.csv"
+    filepaths = [fpath3, fpath4]
+    labels = ["Unique Visits to Install Docs", "New Users to WebUI"]
+    plot_funnel(filepaths, labels, "Month")
 
